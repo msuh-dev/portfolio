@@ -1,6 +1,43 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { ExternalLink, GitFork } from 'lucide-react'
+import portfolioThumbSrc from '../assets/images/portfolio-thumb.jpg.png'
+
+// Thumbnail: actual screenshot of the live portfolio site
+function PortfolioThumb() {
+  return (
+    <img
+      src={portfolioThumbSrc}
+      alt="Personal Portfolio Site screenshot"
+      className="w-full h-full object-cover object-top"
+    />
+  )
+}
+
+// Thumbnail: animated "Work in Progress" placeholder for upcoming projects
+function WIPThumb({ label = 'Work in Progress' }) {
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-zinc-800/60 rounded-lg">
+      {/* Animated construction dots */}
+      <div className="flex gap-1.5">
+        {[0, 1, 2, 3].map((i) => (
+          <motion.div
+            key={i}
+            className="w-1.5 h-1.5 rounded-full bg-amber-400/50"
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{
+              duration: 1.4,
+              repeat: Infinity,
+              delay: i * 0.2,
+              ease: 'easeInOut',
+            }}
+          />
+        ))}
+      </div>
+      <p className="text-zinc-500 text-xs font-medium uppercase tracking-widest">{label}</p>
+    </div>
+  )
+}
 
 const projects = [
   {
@@ -11,6 +48,7 @@ const projects = [
     statusColor: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30',
     github: 'https://github.com/msuh-dev/portfolio',
     demo: null,
+    thumbnail: 'portfolio',
   },
   {
     name: 'System Design Advisor',
@@ -20,6 +58,7 @@ const projects = [
     statusColor: 'text-amber-400 bg-amber-400/10 border-amber-400/30',
     github: null,
     demo: null,
+    thumbnail: 'wip',
   },
   {
     name: 'AI Resume Tailoring Tool',
@@ -29,6 +68,7 @@ const projects = [
     statusColor: 'text-amber-400 bg-amber-400/10 border-amber-400/30',
     github: null,
     demo: null,
+    thumbnail: 'wip',
   },
 ]
 
@@ -67,60 +107,73 @@ export default function Projects() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map((project, i) => (
             <FadeInSection key={project.name} delay={i * 0.05}>
-              <div className="group relative flex flex-col h-full p-6 rounded-xl bg-zinc-800/40 border border-zinc-700/40 hover:border-amber-500/40 hover:bg-zinc-800/60 transition-all duration-300">
-                {/* Status badge */}
-                <div className="flex items-center justify-between mb-4">
-                  <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${project.statusColor}`}
-                  >
-                    {project.status === 'Live' && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse" />
-                    )}
-                    {project.status}
-                  </span>
+              <div className="group relative flex flex-col h-full rounded-xl bg-zinc-800/40 border border-zinc-700/40 hover:border-amber-500/40 hover:bg-zinc-800/60 transition-all duration-300 overflow-hidden">
 
-                  <div className="flex items-center gap-2">
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-zinc-500 hover:text-amber-400 transition-colors"
-                        aria-label="GitHub"
-                      >
-                        <GitFork size={16} />
-                      </a>
-                    )}
-                    {project.demo && (
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-zinc-500 hover:text-amber-400 transition-colors"
-                        aria-label="Live demo"
-                      >
-                        <ExternalLink size={16} />
-                      </a>
-                    )}
-                  </div>
+                {/* Thumbnail area */}
+                <div className="relative w-full h-40 overflow-hidden border-b border-zinc-700/40">
+                  {project.thumbnail === 'portfolio' ? (
+                    <PortfolioThumb />
+                  ) : (
+                    <WIPThumb />
+                  )}
                 </div>
 
-                <h3 className="text-white font-semibold text-base mb-2 group-hover:text-amber-400 transition-colors duration-200">
-                  {project.name}
-                </h3>
-                <p className="text-zinc-400 text-sm leading-relaxed mb-5 flex-1">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-1.5">
-                  {project.tech.map((tag) => (
+                {/* Card body */}
+                <div className="flex flex-col flex-1 p-6">
+                  {/* Status badge + links */}
+                  <div className="flex items-center justify-between mb-4">
                     <span
-                      key={tag}
-                      className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700/60 text-zinc-400"
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${project.statusColor}`}
                     >
-                      {tag}
+                      {project.status === 'Live' && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse" />
+                      )}
+                      {project.status}
                     </span>
-                  ))}
+
+                    <div className="flex items-center gap-2">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-zinc-500 hover:text-amber-400 transition-colors"
+                          aria-label="GitHub"
+                        >
+                          <GitFork size={16} />
+                        </a>
+                      )}
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-zinc-500 hover:text-amber-400 transition-colors"
+                          aria-label="Live demo"
+                        >
+                          <ExternalLink size={16} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <h3 className="text-white font-semibold text-base mb-2 group-hover:text-amber-400 transition-colors duration-200">
+                    {project.name}
+                  </h3>
+                  <p className="text-zinc-400 text-sm leading-relaxed mb-5 flex-1">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tech.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700/60 text-zinc-400"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </FadeInSection>

@@ -1,6 +1,14 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 
+// ─────────────────────────────────────────────────────────────────
+// PHOTO SETUP — when you have a photo ready:
+//   1. Add it to: src/assets/images/michael-suh-photo.jpg
+//   2. Uncomment the import line below
+//   3. In the JSX below, uncomment the <img> and delete the placeholder <div>
+// ─────────────────────────────────────────────────────────────────
+// import profilePhoto from '../assets/images/michael-suh-photo.jpg'
+
 const skills = {
   Technical: [
     'Java', 'Python', 'JavaScript', 'TypeScript',
@@ -54,6 +62,7 @@ export default function About() {
   return (
     <section id="about" className="py-24 px-6 bg-zinc-900">
       <div className="max-w-6xl mx-auto">
+
         {/* Section label */}
         <FadeInSection>
           <p className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-3">
@@ -64,9 +73,49 @@ export default function About() {
           </h2>
         </FadeInSection>
 
-        {/* Bio */}
-        <div className="grid md:grid-cols-2 gap-12 mb-16">
+        {/* Photo + Bio — photo LEFT, all bio text RIGHT */}
+        <div className="grid md:grid-cols-2 gap-12 items-start mb-10">
+
+          {/* LEFT — photo */}
           <FadeInSection delay={0.1}>
+            {/*
+              Real photo — uncomment when ready and delete the placeholder <div> below.
+              Make sure to also uncomment the import at the top of this file.
+            */}
+            {/*
+            <img
+              src={profilePhoto}
+              alt="Michael Suh"
+              className="w-full rounded-2xl object-cover shadow-lg"
+            />
+            */}
+
+            {/* Photo placeholder — delete this block when real photo is added above */}
+            <div className="w-full aspect-square rounded-2xl bg-zinc-800/60 border border-zinc-700/50 flex flex-col items-center justify-center gap-3">
+              <div className="w-16 h-16 rounded-full bg-zinc-700/80 border border-zinc-600/50 flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-8 h-8 text-zinc-500"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <p className="text-zinc-600 text-xs font-medium uppercase tracking-widest">
+                Photo coming soon
+              </p>
+            </div>
+            {/* End photo placeholder */}
+          </FadeInSection>
+
+          {/* RIGHT — all bio text */}
+          <FadeInSection delay={0.2}>
             <div className="space-y-5 text-zinc-400 leading-relaxed text-[15px]">
               <p>
                 I'm a software leader who started as a full-stack developer and grew into the kind
@@ -91,11 +140,6 @@ export default function About() {
                 leadership and domain experience with a return to hands-on development — this time
                 with a modern stack and AI at the center of everything.
               </p>
-            </div>
-          </FadeInSection>
-
-          <FadeInSection delay={0.2}>
-            <div className="space-y-5 text-zinc-400 leading-relaxed text-[15px]">
               <p>
                 I'm a University of Waterloo Honours Computer Science graduate, a recipient of the
                 AKCSE Member of the Year award (2014–2015), and a native speaker of both English
@@ -105,27 +149,29 @@ export default function About() {
                 I'm currently open to the right leadership opportunity while I build. If that sounds
                 like a fit, let's talk.
               </p>
-
-              {/* Quick facts */}
-              <div className="mt-8 grid grid-cols-2 gap-4">
-                {[
-                  { label: 'Experience', value: '13+ years' },
-                  { label: 'Peak org size', value: '45 people' },
-                  { label: 'Based in', value: 'Vaughan, ON' },
-                  { label: 'Languages', value: 'EN · KO · JA · ZH' },
-                ].map(({ label, value }) => (
-                  <div
-                    key={label}
-                    className="p-4 rounded-lg bg-zinc-800/60 border border-zinc-700/50"
-                  >
-                    <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">{label}</p>
-                    <p className="text-white font-semibold text-sm">{value}</p>
-                  </div>
-                ))}
-              </div>
             </div>
           </FadeInSection>
         </div>
+
+        {/* Quick facts — full width below both columns */}
+        <FadeInSection delay={0.25}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
+            {[
+              { label: 'Experience', value: '13+ years' },
+              { label: 'Peak org size', value: '45 people' },
+              { label: 'Based in', value: 'Vaughan, ON' },
+              { label: 'Languages', value: 'EN · KO · JA · ZH' },
+            ].map(({ label, value }) => (
+              <div
+                key={label}
+                className="p-4 rounded-lg bg-zinc-800/60 border border-zinc-700/50"
+              >
+                <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">{label}</p>
+                <p className="text-white font-semibold text-sm">{value}</p>
+              </div>
+            ))}
+          </div>
+        </FadeInSection>
 
         {/* Skills */}
         <FadeInSection delay={0.15}>
@@ -153,6 +199,7 @@ export default function About() {
             ))}
           </div>
         </FadeInSection>
+
       </div>
     </section>
   )
