@@ -1,16 +1,49 @@
-# React + Vite
+# Michael Suh — Personal Portfolio & Professional Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Live at **[michaelsuh.vercel.app](https://michaelsuh.vercel.app)**
 
-Currently, two official plugins are available:
+A clean, modern developer portfolio and professional website built with React and Tailwind CSS. Designed to showcase my background, experience, and the products I'm building — with a contact form for direct outreach.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Layer | Technology |
+|---|---|
+| Framework | React 19 + Vite |
+| Styling | Tailwind CSS v4 |
+| Animations | Framer Motion |
+| Icons | Lucide React |
+| Contact form | EmailJS |
+| Deployment | Vercel (auto-deploy on push to `main`) |
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Sections
+
+- **Hero** — name, title, tagline, and CTAs
+- **About** — bio, quick facts, and skills across four categories (Technical, AI & Emerging, Leadership, Domain)
+- **Experience** — work history (Embross, OpenText, IBM), education (University of Waterloo), and awards
+- **Projects** — live project cards with dynamic screenshots via Microlink; animated placeholder for upcoming projects
+- **Contact** — EmailJS-powered contact form
+
+---
+
+## Running locally
+
+```bash
+npm install
+npm run dev
+```
+
+Opens at `http://localhost:5173`
+
+---
+
+## Project cards & thumbnails
+
+Project card thumbnails are fetched dynamically at runtime using the [Microlink API](https://microlink.io) — no manual screenshots to maintain. Results are cached in `localStorage` for 24 hours. Upcoming projects display an animated placeholder until they go live.
+
+---
+
+*Built by [Michael Suh](https://michaelsuh.vercel.app)*
