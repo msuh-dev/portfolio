@@ -3,19 +3,19 @@ import { useRef, useState } from 'react'
 import { ExternalLink, GitFork } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DYNAMIC THUMBNAILS — 11ty Screenshot Service
+// DYNAMIC THUMBNAILS — thum.io Screenshot Service
 //
 // For any Live project with a `url`, the card renders a live screenshot via
-// https://v1.screenshot.11ty.dev — free, no API key required, caching handled
-// by the service. Works as a plain <img src> — no fetch/localStorage needed.
+// https://image.thum.io — free, no API key required, works as a plain <img src>.
+// Caching handled server-side; browser image cache covers repeat loads.
 //
-// The browser's own image cache handles repeat loads efficiently.
+// URL format: https://image.thum.io/get/width/800/<url>  (no encoding needed)
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Thumbnail for Live projects — direct screenshot image, spinner until loaded
 function LiveThumbnail({ url, name }) {
   const [status, setStatus] = useState('loading') // 'loading' | 'loaded' | 'error'
-  const screenshotUrl = `https://v1.screenshot.11ty.dev/${encodeURIComponent(url)}/`
+  const screenshotUrl = `https://image.thum.io/get/width/800/${url}`
 
   return (
     <div className="relative w-full h-full">
@@ -82,7 +82,7 @@ const projects = [
     status: 'Live',
     statusColor: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30',
     url: 'https://momijilabs-aichitect.vercel.app',
-    github: null,
+    github: 'https://github.com/msuh-dev/aichitect',
     demo: 'https://momijilabs-aichitect.vercel.app',
   },
   {
