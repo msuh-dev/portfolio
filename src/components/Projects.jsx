@@ -29,7 +29,7 @@ function LiveThumbnail({ url, name }) {
       <img
         src={screenshotUrl}
         alt={`${name} preview`}
-        className={`w-full h-full object-cover object-top transition-all duration-500 group-hover/thumb:scale-105 ${
+        className={`w-full h-full object-cover object-top transition-opacity duration-500 ${
           status === 'loaded' ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ display: status === 'error' ? 'none' : 'block' }}
@@ -159,7 +159,9 @@ export default function Projects() {
                         className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/thumb:scale-105"
                       />
                     ) : (
-                      <LiveThumbnail url={project.url} name={project.name} />
+                      <div className="w-full h-full transition-transform duration-500 group-hover/thumb:scale-105">
+                        <LiveThumbnail url={project.url} name={project.name} />
+                      </div>
                     )}
                     {/* Hover overlay */}
                     <div className="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/40 transition-all duration-300 flex items-center justify-center">
