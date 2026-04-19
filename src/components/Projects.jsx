@@ -1,98 +1,42 @@
 import { motion, useInView } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { ExternalLink, GitFork } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DYNAMIC THUMBNAILS — Microlink API
+// DYNAMIC THUMBNAILS — 11ty Screenshot Service
 //
-// For any Live project with a `url`, the card automatically fetches a fresh
-// screenshot via Microlink (https://microlink.io). Results are cached in
-// localStorage for 24 hours so repeat visits don't re-hit the API.
+// For any Live project with a `url`, the card renders a live screenshot via
+// https://v1.screenshot.11ty.dev — free, no API key required, caching handled
+// by the service. Works as a plain <img src> — no fetch/localStorage needed.
 //
-// Free tier: 100 req/day — sufficient for a portfolio at current traffic.
-// Upgrade if traffic grows: https://microlink.io/pricing
+// The browser's own image cache handles repeat loads efficiently.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000 // 24 hours
-
-function getCachedThumb(url) {
-  try {
-    const raw = localStorage.getItem(`thumb::${url}`)
-    if (!raw) return null
-    const { src, expires } = JSON.parse(raw)
-    if (Date.now() > expires) {
-      localStorage.removeItem(`thumb::${url}`)
-      return null
-    }
-    return src // may be a URL string or null (cached failure)
-  } catch {
-    return null
-  }
-}
-
-function setCachedThumb(url, src) {
-  try {
-    localStorage.setItem(
-      `thumb::${url}`,
-      JSON.stringify({ src, expires: Date.now() + CACHE_TTL_MS })
-    )
-  } catch {
-    // storage quota exceeded — ignore silently
-  }
-}
-
-function useLiveThumbnail(url) {
-  const cached = url ? getCachedThumb(url) : undefined
-  const [src, setSrc] = useState(cached !== undefined ? cached : null)
-  const [loading, setLoading] = useState(cached === undefined && !!url)
-
-  useEffect(() => {
-    if (!url || cached !== undefined) return
-
-    fetch(`https://api.microlink.io?url=${encodeURIComponent(url)}&screenshot=true`)
-      .then((r) => r.json())
-      .then(({ status, data }) => {
-        const imgSrc =
-          status === 'success'
-            ? data?.screenshot?.url ?? data?.image?.url ?? null
-            : null
-        setCachedThumb(url, imgSrc)
-        setSrc(imgSrc)
-        setLoading(false)
-      })
-      .catch(() => {
-        setCachedThumb(url, null)
-        setLoading(false)
-      })
-  }, [url]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  return { src, loading }
-}
-
-// Thumbnail for Live projects — fetches dynamically, shows spinner while loading
+// Thumbnail for Live projects — direct screenshot image, spinner until loaded
 function LiveThumbnail({ url, name }) {
-  const { src, loading } = useLiveThumbnail(url)
+  const [status, setStatus] = useState('loading') // 'loading' | 'loaded' | 'error'
+  const screenshotUrl = `https://v1.screenshot.11ty.dev/${encodeURIComponent(url)}/`
 
-  if (loading) {
-    return (
-      <div className="w-full h-full bg-zinc-800/60 flex items-center justify-center">
-        <div className="w-5 h-5 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin" />
-      </div>
-    )
-  }
-
-  if (src) {
-    return (
+  return (
+    <div className="relative w-full h-full">
+      {status === 'loading' && (
+        <div className="absolute inset-0 bg-zinc-800/60 flex items-center justify-center">
+          <div className="w-5 h-5 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin" />
+        </div>
+      )}
+      {status === 'error' && <WIPThumb label="Preview unavailable" />}
       <img
-        src={src}
+        src={screenshotUrl}
         alt={`${name} preview`}
-        className="w-full h-full object-cover object-top"
+        className={`w-full h-full object-cover object-top transition-opacity duration-500 ${
+          status === 'loaded' ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{ display: status === 'error' ? 'none' : 'block' }}
+        onLoad={() => setStatus('loaded')}
+        onError={() => setStatus('error')}
       />
-    )
-  }
-
-  // Fallback if Microlink fails
-  return <WIPThumb label="Preview unavailable" />
+    </div>
+  )
 }
 
 // Thumbnail for Coming Soon projects
