@@ -29,7 +29,7 @@ function LiveThumbnail({ url, name }) {
       <img
         src={screenshotUrl}
         alt={`${name} preview`}
-        className={`w-full h-full object-cover object-top transition-opacity duration-500 ${
+        className={`w-full h-full object-cover object-top transition-all duration-500 group-hover/thumb:scale-105 ${
           status === 'loaded' ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ display: status === 'error' ? 'none' : 'block' }}
