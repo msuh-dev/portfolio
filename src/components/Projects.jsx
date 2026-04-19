@@ -143,20 +143,36 @@ export default function Projects() {
             <FadeInSection key={project.name} delay={i * 0.05}>
               <div className="group relative flex flex-col h-full rounded-xl bg-zinc-800/40 border border-zinc-700/40 hover:border-amber-500/40 hover:bg-zinc-800/60 transition-all duration-300 overflow-hidden">
 
-                {/* Thumbnail */}
-                <div className="relative w-full h-40 overflow-hidden border-b border-zinc-700/40">
-                  {project.staticThumb ? (
-                    <img
-                      src={project.staticThumb}
-                      alt={`${project.name} preview`}
-                      className="w-full h-full object-cover object-top"
-                    />
-                  ) : project.status === 'Live' && project.url ? (
-                    <LiveThumbnail url={project.url} name={project.name} />
-                  ) : (
+                {/* Thumbnail — clickable for Live projects, static for Coming Soon */}
+                {project.demo ? (
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Visit ${project.name}`}
+                    className="group/thumb block relative w-full h-40 overflow-hidden border-b border-zinc-700/40"
+                  >
+                    {project.staticThumb ? (
+                      <img
+                        src={project.staticThumb}
+                        alt={`${project.name} preview`}
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/thumb:scale-105"
+                      />
+                    ) : (
+                      <LiveThumbnail url={project.url} name={project.name} />
+                    )}
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/40 transition-all duration-300 flex items-center justify-center">
+                      <div className="opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300 bg-zinc-900/80 rounded-full p-2.5">
+                        <ExternalLink size={16} className="text-amber-400" />
+                      </div>
+                    </div>
+                  </a>
+                ) : (
+                  <div className="relative w-full h-40 overflow-hidden border-b border-zinc-700/40">
                     <WIPThumb />
-                  )}
-                </div>
+                  </div>
+                )}
 
                 {/* Card body */}
                 <div className="flex flex-col flex-1 p-6">
