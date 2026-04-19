@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { ExternalLink, GitFork } from 'lucide-react'
+import portfolioThumb from '../assets/images/portfolio-thumb.png'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DYNAMIC THUMBNAILS — thum.io Screenshot Service
@@ -73,6 +74,9 @@ const projects = [
     url: 'https://michaelsuh.vercel.app',
     github: 'https://github.com/msuh-dev/portfolio',
     demo: 'https://michaelsuh.vercel.app',
+    // Static thumbnail used here because Framer Motion entrance animations
+    // render at opacity:0 and thum.io captures the page before they play.
+    staticThumb: portfolioThumb,
   },
   {
     name: 'AIchitect',
@@ -141,7 +145,13 @@ export default function Projects() {
 
                 {/* Thumbnail */}
                 <div className="relative w-full h-40 overflow-hidden border-b border-zinc-700/40">
-                  {project.status === 'Live' && project.url ? (
+                  {project.staticThumb ? (
+                    <img
+                      src={project.staticThumb}
+                      alt={`${project.name} preview`}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  ) : project.status === 'Live' && project.url ? (
                     <LiveThumbnail url={project.url} name={project.name} />
                   ) : (
                     <WIPThumb />
