@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Private planning and reference documents - never commit these
+master-reference.md
+project-01-portfolio-site.md
+general-discussions.md
+CONTENT.md
