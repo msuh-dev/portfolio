@@ -225,8 +225,8 @@ export default function Contact() {
                     {
                       icon: <GitHubIcon size={18} />,
                       label: 'GitHub',
-                      value: 'github.com/msuh-dev',
-                      href: 'https://github.com/msuh-dev',
+                      value: 'github.com/michaelsuh',
+                      href: 'https://github.com/michaelsuh',
                     },
                     {
                       icon: <Mail size={18} />,

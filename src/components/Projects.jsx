@@ -72,7 +72,7 @@ const projects = [
     status: 'Live',
     statusColor: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30',
     url: 'https://michaelsuh.vercel.app',
-    github: 'https://github.com/msuh-dev/portfolio',
+    github: 'https://github.com/michaelsuh/portfolio',
     demo: 'https://michaelsuh.vercel.app',
     // Static thumbnail used here because Framer Motion entrance animations
     // render at opacity:0 and thum.io captures the page before they play.
@@ -86,7 +86,7 @@ const projects = [
     status: 'Live',
     statusColor: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30',
     url: 'https://momijilabs-aichitect.vercel.app',
-    github: 'https://github.com/msuh-dev/aichitect',
+    github: 'https://github.com/michaelsuh/aichitect',
     demo: 'https://momijilabs-aichitect.vercel.app',
   },
   {
